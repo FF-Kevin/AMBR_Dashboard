@@ -21,7 +21,8 @@ html.Div([
 html.Div([
     dcc.Graph(id='DO', style={'width':'50%'}),
     dcc.Graph(id='pH', style={'width':'50%'}),
-    dcc.Graph(id='Agitation', style={'width':'50%'})],
+    dcc.Graph(id='Agitation', style={'width':'50%'}),
+    dcc.Graph(id='Temperature (°C)', style={'width':'50%'})],
     style={'display':'inline-flex','flex-wrap':'wrap'})])
 
 
@@ -51,6 +52,14 @@ def update_pH(value):
 def update_Agitation(value):
     dff = df[df.Tank==value]
     return px.line(dff, x='Timestamp', y='Stir speed (rpm)')
+
+@callback(
+    Output('Temperature (°C)','figure'),
+    Input('dropdown-selection','value')
+)
+def update_Temp(value):
+    dff = df[df.Tank==value]
+    return px.line(dff, x='Timestamp', y='Temperature (°C)')
 
 #Run Dashboard!
 if __name__ == '__main__':
